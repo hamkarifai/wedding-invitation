@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchInvitation } from "@/services/api";
@@ -9,8 +9,7 @@ import {
   hasInvitationData,
 } from "@/lib/invitation-storage";
 import { safeBase64 } from "@/lib/base64";
-
-const InvitationContext = createContext(null);
+import { InvitationContext } from "./invitation-context-definition";
 
 /**
  * InvitationProvider component
@@ -150,23 +149,4 @@ export function InvitationProvider({ children }) {
       {children}
     </InvitationContext.Provider>
   );
-}
-
-/**
- * Custom hook to access the invitation UID
- *
- * @returns {object} Object containing the invitation UID
- * @throws {Error} If used outside of InvitationProvider
- *
- * @example
- * const { uid } = useInvitation();
- */
-export function useInvitation() {
-  const context = useContext(InvitationContext);
-
-  if (context === null) {
-    throw new Error("useInvitation must be used within InvitationProvider");
-  }
-
-  return context;
 }
