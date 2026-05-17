@@ -1,4 +1,4 @@
-import { safeBase64 } from '@/lib/base64';
+import { safeBase64 } from "@/lib/base64";
 
 /**
  * Generate a personalized invitation link for a guest
@@ -15,9 +15,10 @@ import { safeBase64 } from '@/lib/base64';
  * // Returns: https://wedding.example.com/rifqi-dina-2025?guest=QWhtYWQgQWJkdWxsYWg=
  */
 export function generateInvitationLink(uid, guestName, baseUrl) {
-    const url = baseUrl || (typeof window !== 'undefined' ? window.location.origin : '');
-    const encodedName = safeBase64.encode(guestName);
-    return `${url}/${uid}?guest=${encodedName}`;
+  const url =
+    baseUrl || (typeof window !== "undefined" ? window.location.origin : "");
+  const encodedName = safeBase64.encode(guestName);
+  return `${url}/${uid}?guest=${encodedName}`;
 }
 
 /**
@@ -38,10 +39,10 @@ export function generateInvitationLink(uid, guestName, baseUrl) {
  * // ]
  */
 export function generateBulkInvitationLinks(uid, guestNames, baseUrl) {
-    return guestNames.map(name => ({
-        name,
-        link: generateInvitationLink(uid, name, baseUrl)
-    }));
+  return guestNames.map((name) => ({
+    name,
+    link: generateInvitationLink(uid, name, baseUrl),
+  }));
 }
 
 /**
@@ -53,11 +54,15 @@ export function generateBulkInvitationLinks(uid, guestNames, baseUrl) {
  * import { printInvitationLinks } from './utils/generateInvitationLink'
  * printInvitationLinks('rifqi-dina-2025', ['John Doe', 'Jane Smith'])
  */
-export function printInvitationLinks(uid, guestNames, baseUrl = 'http://localhost:5173') {
-    const links = generateBulkInvitationLinks(uid, guestNames, baseUrl);
-    console.log('\n=== Personalized Invitation Links ===\n');
-    links.forEach(({ name, link }) => {
-        console.log(`${name}:\n${link}\n`);
-    });
-    return links;
+export function printInvitationLinks(
+  uid,
+  guestNames,
+  baseUrl = "http://localhost:5173",
+) {
+  const links = generateBulkInvitationLinks(uid, guestNames, baseUrl);
+  console.log("\n=== Personalized Invitation Links ===\n");
+  links.forEach(({ name, link }) => {
+    console.log(`${name}:\n${link}\n`);
+  });
+  return links;
 }
