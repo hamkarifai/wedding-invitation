@@ -10,7 +10,7 @@ import {
   createMockPool,
   createMockWish,
   createMockStats,
-} from "../../test-utils.js";
+} from "../../lib/test-helpers.js";
 
 // Mock the db-client module
 vi.mock("../../lib/db-client.js", () => ({
