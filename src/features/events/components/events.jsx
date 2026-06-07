@@ -2,54 +2,49 @@ import EventCards from "@/features/events/components/events-card";
 import { useConfig } from "@/features/invitation/hooks/use-config";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import { useMotionPreset, staggerContainer } from "@/lib/motion";
 
 export default function Events() {
   const config = useConfig(); // Use hook to get config from API or fallback to static
+  const fade = useMotionPreset("fade");
+  const fadeUp = useMotionPreset("fadeUp");
+  const scaleIn = useMotionPreset("scaleIn");
 
   return (
     <>
       {/* Event Section */}
       <section id="event" className="min-h-screen relative overflow-hidden">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          variants={fade}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
           className="relative z-10 container mx-auto px-4 py-20"
         >
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={staggerContainer()}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
             className="text-center space-y-4 mb-16"
           >
             <motion.span
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              variants={fadeUp}
               className="inline-block text-rose-500 font-medium mb-2"
             >
               Catat Tanggal Penting Ini
             </motion.span>
 
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              variants={fadeUp}
               className="text-4xl md:text-5xl font-serif text-gray-800 leading-tight"
             >
               Rangkaian Acara Pernikahan
             </motion.h2>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
+              variants={fadeUp}
               className="text-gray-500 max-w-md mx-auto"
             >
               Kami Mengundang Anda untuk Merayakan Hari Istimewa Sebagai Awal
@@ -58,10 +53,7 @@ export default function Events() {
 
             {/* Decorative Line */}
             <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
+              variants={scaleIn}
               className="flex items-center justify-center gap-4 mt-6"
             >
               <div className="h-[1px] w-12 bg-rose-200" />
@@ -74,10 +66,10 @@ export default function Events() {
 
           {/* Events Grid */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
             className="max-w-2xl mx-auto"
           >
             <EventCards events={config.agenda} />
