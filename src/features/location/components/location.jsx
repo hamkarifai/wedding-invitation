@@ -24,7 +24,7 @@ export default function Location() {
           >
             <motion.span
               variants={fadeUp}
-              className="inline-block text-rose-500 font-medium"
+              className="inline-block text-[#81a9bb] font-medium"
             >
               Lokasi Acara
             </motion.span>
@@ -41,9 +41,9 @@ export default function Location() {
               variants={scaleIn}
               className="flex items-center justify-center gap-4 pt-4"
             >
-              <div className="h-[1px] w-12 bg-rose-200" />
-              <MapPin className="w-5 h-5 text-rose-400" />
-              <div className="h-[1px] w-12 bg-rose-200" />
+              <div className="h-[1px] w-12 bg-[#81a9bb]/30" />
+              <MapPin className="w-5 h-5 text-[#81a9bb]/80" />
+              <div className="h-[1px] w-12 bg-[#81a9bb]/30" />
             </motion.div>
           </motion.div>
 
@@ -84,19 +84,19 @@ export default function Location() {
 
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4">
-                    <MapPin className="w-5 h-5 text-rose-500 mt-1" />
+                    <MapPin className="w-5 h-5 text-[#81a9bb] mt-1" />
                     <p className="text-gray-600 flex-1">{config.address}</p>
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    <CalendarCheck className="w-5 h-5 text-rose-500" />
+                    <CalendarCheck className="w-5 h-5 text-[#81a9bb]" />
                     <p className="text-gray-600">
                       {formatEventDate(config.date)}
                     </p>
                   </div>
 
                   <div className="flex items-center space-x-4">
-                    <Clock className="w-5 h-5 text-rose-500" />
+                    <Clock className="w-5 h-5 text-[#81a9bb]" />
                     <p className="text-gray-600">{config.time}</p>
                   </div>
 

@@ -155,6 +155,11 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* =========================================================
+          ELEMEN TRANSISI: Memudarkan batas bawah background (Hero)
+         ========================================================= */}
+      <div className="absolute bottom-0 left-0 z-20 w-full h-28 bg-gradient-to-t from-white to-transparent pointer-events-none via-white/40" />
     </motion.section>
   );
 }

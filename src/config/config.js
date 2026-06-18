@@ -7,8 +7,12 @@ const config = {
       "Kami akan menikah dan mengundang Anda untuk turut merayakan momen istimewa ini.", // Nanti ini dibikin random
     // Groom's name
     groomName: "Andy",
+    groomFullName: "Andy Nur",
+    groomArabicName: "أَنْدِي نُوْر",
     // Bride's name
     brideName: "Ida",
+    brideFullName: "Nur Hidayah",
+    brideArabicName: "نُوْر هِدَايَة",
     // Groom's parents names
     parentGroom: "Bapak Groom & Ibu Groom",
     // Bride's parents names

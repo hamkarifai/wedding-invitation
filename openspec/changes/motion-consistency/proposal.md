@@ -22,7 +22,7 @@ Non-goals: no API, data, routing, or business-logic changes; no new dependencies
 ## Impact
 
 - **New code**: `src/lib/motion.js` (tokens, variants, reduced-motion-aware helpers).
-- **Modified components** (motion adoption, presentational only): `src/app.jsx`, `src/components/layout/layout.jsx`, `src/components/layout/bottom-bar.jsx`, `src/features/invitation/components/hero.jsx`, `src/features/invitation/components/landing-page.jsx`, `src/features/events/components/events.jsx`, `src/features/events/components/events-card.jsx`, `src/features/gifts/components/gifts.jsx`, `src/features/location/components/location.jsx`, `src/features/wishes/components/wishes.jsx`.
+- **Modified components** (motion adoption, presentational only): `src/app.jsx`, `src/components/layout/layout.jsx`, `src/components/layout/bottom-bar.jsx`, `src/features/invitation/components/hero.jsx`, `src/features/invitation/components/landing-page.jsx`, `src/features/events/components/BrideGroom.jsx`, `src/features/events/components/events-card.jsx`, `src/features/gifts/components/gifts.jsx`, `src/features/location/components/location.jsx`, `src/features/wishes/components/wishes.jsx`.
 - **Dependencies**: none added; uses Framer Motion's existing `useReducedMotion`.
 - **Tests**: existing suites are API/schema-focused and do not cover animation; verification is primarily visual review plus lint/build. Optional: a light unit test asserting the motion module exposes expected tokens/variants.
 - **Accessibility**: adds `prefers-reduced-motion` support where there was none.

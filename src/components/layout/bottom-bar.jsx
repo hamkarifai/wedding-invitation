@@ -14,7 +14,7 @@ import { useConfig } from "@/features/invitation/hooks/use-config";
 import { DURATION, useReducedMotionFlag } from "@/lib/motion";
 
 const baseMenuItems = [
-  { icon: Heart, label: "Mempelai", href: "#home", id: "home" },
+  { icon: Heart, label: "Mempelai", href: "#mempelai", id: "mempelai" },
   { icon: Calendar, label: "Acara", href: "#acara", id: "acara" },
   { icon: Mails, label: "Nasihat", href: "#nasihat", id: "nasihat" },
   {
@@ -46,7 +46,7 @@ const baseMenuItems = [
  */
 const BottomBar = () => {
   const config = useConfig();
-  const [active, setActive] = React.useState("home");
+  const [active, setActive] = React.useState("mempelai");
   const reduceMotion = useReducedMotionFlag();
 
   // Filter menu items based on config - hide gifts when no banks configured
