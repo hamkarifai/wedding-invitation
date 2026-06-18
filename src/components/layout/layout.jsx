@@ -39,7 +39,7 @@ const Layout = ({ children, audioControls }) => {
   }, [isPlaying, config.audio?.toastDuration]);
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+    <div className="flex relative justify-center items-center w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <motion.div
         className="mx-auto w-full max-w-[430px] min-h-screen bg-white relative overflow-hidden border border-gray-200 shadow-lg"
         variants={fade}
@@ -55,15 +55,15 @@ const Layout = ({ children, audioControls }) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggle}
-            className="fixed top-4 right-4 z-50 bg-white/80 backdrop-blur-sm p-3 rounded-full shadow-lg border border-rose-100/50"
+            className="fixed top-4 right-4 z-50 p-3 rounded-full border shadow-lg backdrop-blur-sm bg-white/80 border-rose-100/50"
           >
             {isPlaying ? (
               <div className="relative">
-                <PauseCircle className="w-6 h-6 text-rose-500" />
+                <PauseCircle className="w-6 h-6 text-[#81a9bb]" />
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               </div>
             ) : (
-              <PlayCircle className="w-6 h-6 text-rose-500" />
+              <PlayCircle className="w-6 h-6 text-[#81a9bb]" />
             )}
           </motion.button>
         )}
@@ -79,9 +79,9 @@ const Layout = ({ children, audioControls }) => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50"
+              className="fixed bottom-24 left-1/2 z-50 transform -translate-x-1/2"
             >
-              <div className="bg-black/80 text-white transform -translate-x-1/2 px-4 py-2 rounded-full backdrop-blur-sm flex items-center space-x-2">
+              <div className="flex items-center px-4 py-2 space-x-2 text-white rounded-full backdrop-blur-sm transform -translate-x-1/2 bg-black/80">
                 <Music className="w-4 h-4 animate-pulse" />
                 <span className="text-sm whitespace-nowrap">
                   {config.audio?.title || "Background Music"}

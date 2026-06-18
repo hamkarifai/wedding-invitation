@@ -1,7 +1,6 @@
-import { useConfig } from "@/features/invitation/hooks/use-config";
-import { formatEventDate } from "@/lib/format-event-date";
+import { useEffect, useState } from "react"; // Ditambahkan React hooks
 import { motion } from "framer-motion";
-import { Calendar, Clock } from "lucide-react";
+import weddingMempelai from "@/assets/_elemen-undangan.png";
 import {
   useMotionPreset,
   staggerContainer,
@@ -10,96 +9,115 @@ import {
 } from "@/lib/motion";
 
 const LandingPage = ({ onOpenInvitation }) => {
-  const config = useConfig(); // Use hook to get config from API or fallback to static
   const reduceMotion = useReducedMotionFlag();
   const fade = useMotionPreset("fade");
   const fadeUp = useMotionPreset("fadeUp");
+
+  // State untuk menyimpan nama tamu secara dinamis
+  const [guestName, setGuestName] = useState("");
+
+  useEffect(() => {
+    // Mengambil parameter '?to=' dari URL browser
+    const params = new URLSearchParams(window.location.search);
+    const toParam = params.get("to");
+    if (toParam) {
+      setGuestName(decodeURIComponent(toParam));
+    }
+  }, []);
 
   return (
     <motion.div
       variants={fade}
       initial="hidden"
       animate="visible"
-      className="min-h-screen relative overflow-hidden"
+      className="flex overflow-hidden relative justify-center items-center min-h-screen bg-slate-100"
     >
-      {/* Decorative Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-rose-50/30 to-white" />
-      <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-rose-100/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 md:w-96 md:h-96 bg-pink-100/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+      {/* Decorative Background untuk area desktop */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-50 to-slate-100 via-[#81a9bb]/5" />
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 bg-[#81a9bb]/10 hidden md:block" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 bg-[#81a9bb]/10 hidden md:block" />
 
-      {/* Main Content */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-        <motion.div
-          variants={staggerContainer()}
-          initial="hidden"
-          animate="visible"
-          className="w-full max-w-md"
-        >
-          {/* Card Container */}
-          <div className="backdrop-blur-sm bg-white/50 p-6 sm:p-8 md:p-10 rounded-2xl border border-rose-100/50 shadow-xl">
-            {/* Top Decorative Line */}
-            <div className="flex items-center justify-center gap-3 mb-6 sm:mb-8">
-              <div className="h-px w-12 sm:w-16 bg-rose-200/50" />
-              <div className="w-2 h-2 rounded-full bg-rose-300" />
-              <div className="h-px w-12 sm:w-16 bg-rose-200/50" />
-            </div>
+      {/* KOTAK MOCKUP MOBILE (Frame HP di Tengah) */}
+      <div className="relative w-full max-w-md h-screen md:h-[92vh] md:rounded-3xl md:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] bg-[url('assets/_wedding-bg.jpeg')] bg-cover bg-center bg-no-repeat overflow-hidden border border-white/40">
+        {/* Overlay halus di dalam kotak HP agar gambar bg tidak menubruk teks */}
+        {/* <div className="absolute inset-0 bg-white/20 backdrop-blur-[1px] z-0" /> */}
 
-            {/* Date and Time */}
+        {/* Konten Utama di dalam Frame HP */}
+        <div className="flex relative z-10 flex-col gap-6 justify-center items-center px-6 py-12 w-full h-full text-center">
+          {/* Top Decorative Line */}
+          <div className="flex gap-3 justify-center items-center">
+            <div className="w-12 h-px bg-[#81a9bb]/80" />
+            <div className="w-2 h-2 bg-[#81a9bb] rounded-full" />
+            <div className="w-12 h-px bg-[#81a9bb]/80" />
+          </div>
+
+          {/* Couple Names & Guest Info Wrapper */}
+          <motion.div
+            variants={staggerContainer()}
+            initial="hidden"
+            animate="visible"
+            className="space-y-5 w-full"
+          >
+            {/* Couple Names */}
+            <motion.div variants={fadeUp} className="space-y-3">
+              <img
+                src={weddingMempelai}
+                alt="Andy & Ida"
+                className="object-cover mx-auto w-full max-w-[160px] h-[225px]"
+              />
+              <h1 className="font-serif text-4xl leading-tight text-[#81a9bb] sm:text-5xl">
+                Andy
+                <span className="mx-2 text-[#81a9bb] sm:mx-3">&</span>
+                Ida
+              </h1>
+              <div className="mx-auto w-16 h-px bg-[#81a9bb]" />
+            </motion.div>
+
+            {/* AREA BARU: Kepada Nama Tamu Dinamis & Maaf Typo */}
             <motion.div
               variants={fadeUp}
-              className="flex flex-col gap-4 mb-6 sm:mb-8 items-center"
+              className="flex flex-col items-center pt-1 w-full"
             >
-              <div className="inline-flex flex-col items-center space-y-1 bg-white/80 px-4 sm:px-6 py-2 sm:py-3 rounded-xl">
-                <Calendar className="w-5 h-5 text-rose-400" />
-                <p className="text-gray-700 font-medium">
-                  {formatEventDate(config.date)}
+              <div className="w-full max-w-[280px] px-4 py-4 rounded-xl bg-white/80 shadow-sm border border-white/60 backdrop-blur-sm space-y-1.5">
+                <p className="text-[10px] tracking-wider text-gray-400 font-medium">
+                  Kepada Yth. Bapak/Ibu/Saudara/i
+                </p>
+                <h2 className="px-1 text-base font-semibold text-gray-800 capitalize line-clamp-2">
+                  {guestName || "Nama Tamu"}
+                </h2>
+                <div className="w-6 h-px bg-[#81a9bb]/40 mx-auto" />
+                <p className="text-[9px] text-gray-400/90 italic leading-tight px-1">
+                  *Mohon maaf apabila ada kesalahan penulisan nama/gelar
                 </p>
               </div>
-
-              <div className="inline-flex flex-col items-center space-y-1 bg-white/80 px-4 sm:px-6 py-2 sm:py-3 rounded-xl">
-                <Clock className="w-5 h-5 text-rose-400" />
-                <p className="text-gray-700 font-medium">{config.time}</p>
-              </div>
             </motion.div>
+          </motion.div>
 
-            {/* Couple Names */}
-            <motion.div variants={fadeUp} className="text-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-gray-800 leading-tight">
-                  {config.groomName}
-                  <span className="text-rose-400 mx-2 sm:mx-3">&</span>
-                  {config.brideName}
-                </h1>
-                <div className="h-px w-16 sm:w-24 mx-auto bg-rose-200" />
-              </div>
-            </motion.div>
-
-            {/* Open Invitation Button */}
-            <motion.div variants={fadeUp} className="mt-6 sm:mt-8">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onOpenInvitation}
-                className="group relative w-full bg-rose-500 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-xl font-medium shadow-lg hover:bg-rose-600 transition-all duration-200"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <span>Buka Undangan</span>
-                  <motion.span
-                    animate={reduceMotion ? undefined : { x: [0, 4, 0] }}
-                    transition={
-                      reduceMotion
-                        ? undefined
-                        : { repeat: Infinity, duration: LOOP.nudge }
-                    }
-                  >
-                    →
-                  </motion.span>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-rose-600 to-rose-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              </motion.button>
-            </motion.div>
-          </div>
-        </motion.div>
+          {/* Open Invitation Button */}
+          <motion.div variants={fadeUp} className="w-full max-w-xs">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onOpenInvitation}
+              className="relative px-6 py-3 w-full font-medium text-white bg-[#81a9bb] rounded-xl shadow-md transition-all duration-200 group hover:bg-[#6c91a3]"
+            >
+              <span className="flex relative z-10 gap-2 justify-center items-center">
+                <span>Buka Undangan</span>
+                <motion.span
+                  animate={reduceMotion ? undefined : { x: [0, 4, 0] }}
+                  transition={
+                    reduceMotion
+                      ? undefined
+                      : { repeat: Infinity, duration: LOOP.nudge }
+                  }
+                >
+                  →
+                </motion.span>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#6c91a3] to-[#81a9bb]/80 rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+            </motion.button>
+          </motion.div>
+        </div>
       </div>
     </motion.div>
   );

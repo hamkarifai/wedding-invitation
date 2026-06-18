@@ -1,9 +1,9 @@
-import { Calendar, Clock, Heart } from "lucide-react";
+import { Calendar, Heart } from "lucide-react";
 import { motion } from "framer-motion";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useConfig } from "@/features/invitation/hooks/use-config";
 import { formatEventDate } from "@/lib/format-event-date";
-import { getGuestName } from "@/lib/invitation-storage";
+import weddingMempelai from "@/assets/_elemen-undangan.png";
 import {
   useMotionPreset,
   staggerContainer,
@@ -13,85 +13,24 @@ import {
 } from "@/lib/motion";
 
 export default function Hero() {
-  const config = useConfig(); // Use hook to get config from API or fallback to static
-  const [guestName, setGuestName] = useState("");
+  const config = useConfig();
   const reduceMotion = useReducedMotionFlag();
   const fade = useMotionPreset("fade");
   const fadeUp = useMotionPreset("fadeUp");
   const scaleIn = useMotionPreset("scaleIn");
 
-  useEffect(() => {
-    // Get guest name from localStorage
-    const storedGuestName = getGuestName();
-    if (storedGuestName) {
-      setGuestName(storedGuestName);
-    }
-  }, []);
-
-  const CountdownTimer = ({ targetDate }) => {
-    const calculateTimeLeft = useCallback(() => {
-      const difference = +new Date(targetDate) - +new Date();
-      let timeLeft = {};
-
-      if (difference > 0) {
-        timeLeft = {
-          hari: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          jam: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          menit: Math.floor((difference / 1000 / 60) % 60),
-          detik: Math.floor((difference / 1000) % 60),
-        };
-      }
-      return timeLeft;
-    }, [targetDate]);
-
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setTimeLeft(calculateTimeLeft());
-      }, 1000);
-      return () => clearInterval(timer);
-    }, [calculateTimeLeft]);
-
-    return (
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
-        {Object.keys(timeLeft).map((interval) => (
-          <motion.div
-            key={interval}
-            variants={scaleIn}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-center p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-rose-100"
-          >
-            <span className="text-xl sm:text-2xl font-bold text-rose-600">
-              {timeLeft[interval]}
-            </span>
-            <span className="text-xs text-gray-500 capitalize">{interval}</span>
-          </motion.div>
-        ))}
-      </div>
-    );
-  };
-
   const FloatingHearts = () => {
     const [hearts] = useState(() =>
-      [...Array(8)].map((_, i) => ({
-        size: Math.floor(Math.random() * 2) + 8,
-        color:
-          i % 3 === 0
-            ? "text-rose-400"
-            : i % 3 === 1
-              ? "text-pink-400"
-              : "text-red-400",
-        initialX:
-          typeof window !== "undefined" ? Math.random() * window.innerWidth : 0,
-        animateX:
-          typeof window !== "undefined" ? Math.random() * window.innerWidth : 0,
+      [...Array(6)].map((_, i) => ({
+        size: Math.floor(Math.random() * 2) + 6,
+        color: i % 2 === 0 ? "text-[#81a9bb]/40" : "text-[#6c91a3]/30",
+        initialX: typeof window !== "undefined" ? Math.random() * 320 : 0,
+        animateX: typeof window !== "undefined" ? Math.random() * 320 : 0,
       })),
     );
 
     return (
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="overflow-hidden absolute inset-0 z-0 pointer-events-none">
         {hearts.map((heart, i) => (
           <motion.div
             key={i}
@@ -99,18 +38,18 @@ export default function Hero() {
               opacity: 0,
               scale: 0,
               x: heart.initialX,
-              y: typeof window !== "undefined" ? window.innerHeight : 0,
+              y: 450,
             }}
             animate={{
               opacity: [0, 1, 1, 0],
               scale: [0, 1, 1, 0.5],
               x: heart.animateX,
-              y: -100,
+              y: -50,
             }}
             transition={{
               duration: LOOP.float,
               repeat: Infinity,
-              delay: i * 0.8,
+              delay: i * 1.2,
               ease: EASE.out,
             }}
             className="absolute"
@@ -130,128 +69,92 @@ export default function Hero() {
   };
 
   return (
-    <>
-      <section
-        id="home"
-        className="min-h-screen flex flex-col items-center justify-center px-4 py-16 sm:py-20 text-center relative overflow-hidden"
-      >
+    <motion.section
+      id="home"
+      variants={fade}
+      initial="hidden"
+      animate="visible"
+      className="relative min-h-screen bg-[url('assets/_wedding-bg.jpeg')] bg-cover bg-center bg-no-repeat flex items-center justify-center overflow-hidden"
+    >
+      {/* Konten Utama */}
+      <div className="flex relative z-10 flex-col gap-5 justify-center items-center px-6 py-10 w-full max-w-md h-full min-h-screen text-center">
+        {/* 1. Foto Vector Mempelai (Bagian Teratas) */}
+        <motion.div variants={scaleIn} className="w-full max-w-[400px] mx-auto">
+          <img
+            src={weddingMempelai}
+            alt="Elemen Pernikahan"
+            className="object-contain w-full h-auto drop-shadow-sm"
+          />
+        </motion.div>
+
+        {/* 2. Tulisan Walimatul Ursy */}
+        <motion.div variants={scaleIn} className="inline-block mx-auto mt-1">
+          <span className="px-4 py-1 text-[10px] tracking-widest uppercase bg-white/85 text-[#81a9bb] font-semibold rounded-full border border-white/60 shadow-xs backdrop-blur-xs">
+            Walimatul &apos;Ursy
+          </span>
+        </motion.div>
+
+        {/* 3. Nama Mempelai */}
         <motion.div
           variants={staggerContainer()}
           initial="hidden"
           animate="visible"
-          className="space-y-6 relative z-10"
+          className="space-y-2 w-full"
         >
-          <motion.div variants={scaleIn} className="inline-block mx-auto">
-            <span className="px-4 py-1 text-sm bg-rose-50 text-rose-600 rounded-full border border-rose-200">
-              Catat Tanggal Penting Ini
-            </span>
-          </motion.div>
+          <p className="text-[11px] uppercase tracking-[0.2em] font-light text-gray-500/90">
+            InsyaAllah Kami Akan Menikah
+          </p>
+          <h2 className="font-serif text-4xl leading-tight text-[#81a9bb] sm:text-5xl tracking-wide font-medium drop-shadow-2xs">
+            {config.groomName} & {config.brideName}
+          </h2>
+          <div className="mx-auto w-12 h-px bg-[#81a9bb]/60" />
+        </motion.div>
 
-          <div className="space-y-4">
-            <motion.p
-              variants={fade}
-              className="text-gray-500 font-light italic text-base sm:text-lg"
-            >
-              InsyaAllah Kami Akan Menikah
-            </motion.p>
-            <motion.h2
-              variants={scaleIn}
-              className="text-3xl sm:text-5xl font-serif bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-pink-600"
-            >
-              {config.groomName} & {config.brideName}
-            </motion.h2>
-          </div>
-
-          <motion.div variants={fadeUp} className="relative max-w-md mx-auto">
-            <div className="absolute inset-0 bg-gradient-to-b from-rose-50/50 to-white/50 backdrop-blur-md rounded-2xl" />
-
-            <div className="relative px-4 sm:px-8 py-8 sm:py-10 rounded-2xl border border-rose-100/50">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px">
-                <div className="w-20 sm:w-32 h-[2px] bg-gradient-to-r from-transparent via-rose-200 to-transparent" />
-              </div>
-
-              <div className="space-y-6 text-center">
-                <div className="space-y-3">
-                  <motion.div
-                    variants={fade}
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <Calendar className="w-4 h-4 text-rose-400" />
-                    <span className="text-gray-700 font-medium text-sm sm:text-base">
-                      {formatEventDate(config.date, "full")}
-                    </span>
-                  </motion.div>
-
-                  <motion.div
-                    variants={fade}
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <Clock className="w-4 h-4 text-rose-400" />
-                    <span className="text-gray-700 font-medium text-sm sm:text-base">
-                      {config.time}
-                    </span>
-                  </motion.div>
-                </div>
-
-                <div className="flex items-center justify-center gap-3">
-                  <div className="h-px w-8 sm:w-12 bg-rose-200/50" />
-                  <div className="w-2 h-2 rounded-full bg-rose-200" />
-                  <div className="h-px w-8 sm:w-12 bg-rose-200/50" />
-                </div>
-
-                <motion.div variants={fade} className="space-y-2">
-                  <p className="text-gray-500 font-serif italic text-sm">
-                    Kepada Yth.
-                  </p>
-                  <p className="text-gray-600 font-medium text-sm">
-                    Bapak/Ibu/Saudara/i
-                  </p>
-                  <p className="text-rose-500 font-semibold text-lg">
-                    {guestName || "Tamu Undangan"}
-                  </p>
-                </motion.div>
-              </div>
-
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-px">
-                <div className="w-20 sm:w-32 h-[2px] bg-gradient-to-r from-transparent via-rose-200 to-transparent" />
+        {/* 4. Tanggal Kecil (Ringkas & Minimalis) */}
+        <motion.div variants={fadeUp} className="w-full max-w-[260px] mx-auto">
+          <div className="relative px-4 py-3 space-y-2 rounded-xl border shadow-xs backdrop-blur-xs bg-white/75 border-white/50">
+            <div className="flex flex-col gap-1.5 justify-center items-center text-gray-600">
+              <div className="flex items-center space-x-2">
+                <Calendar className="w-3.5 h-3.5 text-[#81a9bb]" />
+                <span className="text-xs font-medium tracking-wide">
+                  {formatEventDate(config.date, "full")}
+                </span>
               </div>
             </div>
 
-            <div className="absolute -top-2 -right-2 w-16 sm:w-24 h-16 sm:h-24 bg-rose-100/20 rounded-full blur-xl" />
-            <div className="absolute -bottom-2 -left-2 w-16 sm:w-24 h-16 sm:h-24 bg-rose-100/20 rounded-full blur-xl" />
-          </motion.div>
-
-          <CountdownTimer targetDate={config.date} />
-
-          <div className="pt-6 relative">
-            {!reduceMotion && <FloatingHearts />}
-            <motion.div
-              animate={
-                reduceMotion
-                  ? undefined
-                  : {
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0],
-                    }
-              }
-              transition={
-                reduceMotion
-                  ? undefined
-                  : {
-                      duration: LOOP.pulse,
-                      repeat: Infinity,
-                      ease: EASE.inOut,
-                    }
-              }
-            >
-              <Heart
-                className="w-10 sm:w-12 h-10 sm:h-12 text-rose-500 mx-auto"
-                fill="currentColor"
-              />
-            </motion.div>
+            <div className="w-4 h-px bg-[#81a9bb]/30 mx-auto" />
           </div>
         </motion.div>
-      </section>
-    </>
+
+        {/* Countdown Timer
+        <CountdownTimer targetDate={config.date} /> */}
+
+        <div className="flex relative justify-center pt-2 w-full">
+          {!reduceMotion && <FloatingHearts />}
+          <motion.div
+            animate={
+              reduceMotion
+                ? undefined
+                : {
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 4, -4, 0],
+                  }
+            }
+            transition={
+              reduceMotion
+                ? undefined
+                : {
+                    duration: LOOP.pulse,
+                    repeat: Infinity,
+                    ease: EASE.inOut,
+                  }
+            }
+            className="z-10"
+          >
+            <Heart className="w-8 h-8 text-[#81a9bb]/80" fill="currentColor" />
+          </motion.div>
+        </div>
+      </div>
+    </motion.section>
   );
 }

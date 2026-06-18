@@ -6,15 +6,15 @@ const config = {
     description:
       "Kami akan menikah dan mengundang Anda untuk turut merayakan momen istimewa ini.", // Nanti ini dibikin random
     // Groom's name
-    groomName: "Fulan",
+    groomName: "Andy",
     // Bride's name
-    brideName: "Fulana",
+    brideName: "Ida",
     // Groom's parents names
     parentGroom: "Bapak Groom & Ibu Groom",
     // Bride's parents names
     parentBride: "Bapak Bride & Ibu Bride",
     // Wedding date (format: YYYY-MM-DD)
-    date: "2024-12-24",
+    date: "2026-07-05",
     // Google Maps link for location (short clickable link)
     maps_url: "https://goo.gl/maps/abcdef",
     // Google Maps embed code to display map on website

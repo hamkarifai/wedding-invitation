@@ -2,20 +2,21 @@
 import React, { useEffect, useCallback, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
-  Home,
-  CalendarHeart,
-  MapPin,
   Gift,
-  MessageCircleHeart,
+  Heart,
+  Calendar,
+  Mails,
+  MessageCircleMore,
+  DoorClosed,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useConfig } from "@/features/invitation/hooks/use-config";
 import { DURATION, useReducedMotionFlag } from "@/lib/motion";
 
 const baseMenuItems = [
-  { icon: Home, label: "Beranda", href: "#home", id: "home" },
-  { icon: CalendarHeart, label: "Event", href: "#event", id: "event" },
-  { icon: MapPin, label: "Lokasi", href: "#location", id: "location" },
+  { icon: Heart, label: "Mempelai", href: "#home", id: "home" },
+  { icon: Calendar, label: "Acara", href: "#acara", id: "acara" },
+  { icon: Mails, label: "Nasihat", href: "#nasihat", id: "nasihat" },
   {
     icon: Gift,
     label: "Hadiah",
@@ -23,7 +24,8 @@ const baseMenuItems = [
     id: "gifts",
     requiresBanks: true,
   },
-  { icon: MessageCircleHeart, label: "Harapan", href: "#wishes", id: "wishes" },
+  { icon: MessageCircleMore, label: "Ucapan", href: "#ucapan", id: "ucapan" },
+  { icon: DoorClosed, label: "Penutup", href: "#penutup", id: "penutup" },
 ];
 
 /**
@@ -116,9 +118,9 @@ const BottomBar = () => {
   }, [menuItems]);
 
   return (
-    <div className="fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4">
+    <div className="fixed bottom-4 left-1/2 z-50 px-4 w-full max-w-md -translate-x-1/2">
       <motion.div
-        className="w-auto"
+        className="w-full"
         initial={reduceMotion ? { opacity: 0 } : { y: 100, opacity: 0 }}
         animate={reduceMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
         transition={
@@ -127,15 +129,15 @@ const BottomBar = () => {
             : { duration: DURATION.base, type: "spring", stiffness: 100 }
         }
       >
-        <div className="backdrop-blur-md bg-white/90 border border-gray-200/80 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.07)] px-3 py-2">
-          <nav className="flex items-center gap-1">
+        <div className="backdrop-blur-md mx-2 bg-white/90 border border-gray-200/80 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.07)] px-2 py-2">
+          <nav className="flex gap-2 items-center px-1 w-full sm:px-2">
             {menuItems.map((item) => (
               <motion.a
                 key={item.label}
                 href={item.href}
                 className={cn(
                   "flex flex-col items-center justify-center py-2 px-2 rounded-xl transition-all duration-300 ease-in-out",
-                  "hover:bg-gray-50/80 cursor-pointer min-w-[60px]",
+                  "hover:bg-gray-50/80 cursor-pointer min-w-[40px]",
                   active === item.id
                     ? "text-primary bg-primary/5"
                     : "text-gray-600",
@@ -154,7 +156,7 @@ const BottomBar = () => {
                     className={cn(
                       "h-[18px] w-[18px] sm:h-5 sm:w-5 mb-0.5 sm:mb-1 transition-all duration-300",
                       active === item.id
-                        ? "stroke-rose-500 stroke-[2.5px]"
+                        ? "stroke-[#81a9bb] stroke-[2.5px]"
                         : "stroke-gray-600 stroke-2",
                     )}
                   />
@@ -163,7 +165,7 @@ const BottomBar = () => {
                   className={cn(
                     "text-[10px] sm:text-xs font-medium transition-all duration-300 line-clamp-1",
                     active === item.id
-                      ? "text-rose-500 font-semibold"
+                      ? "text-[#81a9bb] font-semibold"
                       : "text-gray-600",
                   )}
                   animate={{
